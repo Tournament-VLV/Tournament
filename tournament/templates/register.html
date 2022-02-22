@@ -4,8 +4,13 @@
     Register Page    
 {% endblock %}
 {% block content %}
-<div class="container">
-    <form method="POST" class="form-register" style="color:white">
+<body class="text-center">
+    <div class="container">
+        <form method="POST" class="form-register" style="color:white">
+            <h1 class="h3 mb-3 font-weight-normal">
+                Please Create your Account
+            </h1>
+            
         {{ form.username.label() }}
         {{ form.username(class="form-control", placeholder="User Name") }}
 
@@ -14,11 +19,15 @@
 
         {{ form.password1.label() }}
         {{ form.password1(class="form-control", placeholder="Password") }}
-        
+
         {{ form.password2.label() }}
         {{ form.password2(class="form-control", placeholder="Confirm Password") }}
+        <br>
+        {{ form.submit(class="btn btn-lg btn-block btn-primary") }}
+        </br>
     </form>
 </div>
+</body>
 {% endblock %}
 
 
