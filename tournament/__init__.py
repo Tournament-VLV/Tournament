@@ -14,6 +14,7 @@ from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///tournament.db'
+app.config['SECRET_KEY'] = '0e226e3abaa2291adf5e0fd3'
 db = SQLAlchemy(app)
 
 from tournament import routes
