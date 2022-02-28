@@ -1,6 +1,6 @@
 from re import I
 from tournament import app
-from flask import render_template, redirect, url_for
+from flask import render_template, redirect, url_for, flash
 from tournament.models import Item, User
 from tournament.forms import RegisterForm
 from tournament import db
@@ -26,7 +26,7 @@ def register_page():
         return redirect(url_for('stats'))
     if form.errors != {}: #if there is no errors from validations
         for err_msg in form.errors.values():
-            print(f'Error with creating user: {err_msg}')
+            flash(f'Error with creating user: {err_msg}')
     return render_template('register.html', form=form)
 
     
