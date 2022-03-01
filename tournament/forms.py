@@ -1,6 +1,7 @@
 #pip install flask-wtf
 #pip install wtforms
 #pip install email_validator
+#pip install flask_bcrypt
 
 from xml.dom import ValidationErr
 from flask_wtf import FlaskForm
