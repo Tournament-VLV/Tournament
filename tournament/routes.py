@@ -29,4 +29,6 @@ def register_page():
             flash(f'Error with creating user: {err_msg}')
     return render_template('register.html', form=form)
 
-    
+@app.route('/login', methods=['GET', 'POST'])
+def login_page():
+    return render_template('login.html')
