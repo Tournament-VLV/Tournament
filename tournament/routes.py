@@ -2,7 +2,7 @@ from re import I
 from tournament import app
 from flask import render_template, redirect, url_for, flash
 from tournament.models import Item, User
-from tournament.forms import RegisterForm
+from tournament.forms import RegisterForm, LoginForm
 from tournament import db
 
 
@@ -31,4 +31,6 @@ def register_page():
 
 @app.route('/login', methods=['GET', 'POST'])
 def login_page():
-    return render_template('login.html')
+    form = LoginForm()
+    return render_template('login.html', form=form)
+    
