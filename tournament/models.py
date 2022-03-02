@@ -16,6 +16,7 @@ class User(db.Model, UserMixin):
     user_points = db.Column(db.Integer(), nullable=True, default=0)
     items = db.relationship('Item', backref='owned_user', lazy=True)
 
+
     @property
     def password(self):
         return self.password

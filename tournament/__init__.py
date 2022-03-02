@@ -8,6 +8,7 @@
 #checking items in db: Item.query.all()
 #pip install flask_bcrypt
 #pip install flask_login
+#python -m pip install SomePackage
 import imp
 from operator import length_hint
 from flask import Flask
