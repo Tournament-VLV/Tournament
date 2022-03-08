@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Duel Page    
+{% endblock %}
+
+{% block content %}
+
+
+    <select id="Player_one" style="padding-left: 3%; padding-right: 3%; margin: 5%;">
+        {% for item in items %}
+        <option value={{item.id}}>{{ item.username}}</option>
+        {% endfor %}
+    </select>
+        <input type="number" id="lname" name="lname">
+        <input type="number" id="lname" name="lname">
+    <select id="Player_one" style="padding-left: 3%; padding-right: 3%; margin: 5%; float: right;">
+        {% for item in items %}
+        <option value={{item.id}}>{{ item.username}}</option>
+        {% endfor %}
+    </select>
+
+
+{% endblock %}

@@ -44,3 +44,8 @@ def login_page():
             flash('Username and password are not match! Please try again', category='danger')
 
     return render_template('login.html', form=form)
+
+@app.route("/duel")
+def duel():
+    items = User.query.all()
+    return render_template("duel.html", items=items)
