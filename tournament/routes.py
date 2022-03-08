@@ -4,7 +4,7 @@ from flask import render_template, redirect, url_for, flash
 from tournament.models import Item, User
 from tournament.forms import RegisterForm, LoginForm
 from tournament import db
-from flask_login import login_user
+from flask_login import login_user, logout_user
 
 @app.route('/')
 @app.route('/home')
@@ -49,3 +49,9 @@ def login_page():
 def duel():
     items = User.query.all()
     return render_template("duel.html", items=items)
+
+@app.route("/logout")
+def logout_page():
+    logout_user()
+    flash("You have been logged out!", category='info')
+    return redirect(url_for("home_page"))
