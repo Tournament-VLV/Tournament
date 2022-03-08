@@ -4,7 +4,7 @@ from flask import render_template, redirect, url_for, flash
 from tournament.models import Item, User
 from tournament.forms import RegisterForm, LoginForm
 from tournament import db
-from flask_login import login_user, logout_user
+from flask_login import login_user, logout_user, login_required
 
 @app.route('/')
 @app.route('/home')
@@ -12,6 +12,7 @@ def home_page():
     return render_template('home.html')
 
 @app.route('/stats')
+@login_required
 def stats():
     items = Item.query.all()
     return render_template('stats.html', items=items) 
@@ -46,6 +47,7 @@ def login_page():
     return render_template('login.html', form=form)
 
 @app.route("/duel")
+@login_required
 def duel():
     items = User.query.all()
     return render_template("duel.html", items=items)

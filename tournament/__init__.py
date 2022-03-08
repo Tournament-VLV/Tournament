@@ -22,4 +22,5 @@ app.config['SECRET_KEY'] = '0e226e3abaa2291adf5e0fd3'
 db = SQLAlchemy(app)
 bcrypt = Bcrypt(app)
 login_manager = LoginManager(app)
+login_manager.login_view = "login_page"
 from tournament import routes
