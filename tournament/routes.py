@@ -42,7 +42,7 @@ def login_page():
         ):
             login_user(attempted_user)
             flash(f'Success! You are logged in as: {attempted_user.username}', category='success')
-            return redirect(url_for('stats'))
+            return redirect(url_for('tournament'))
         else:
             flash('Username and password are not match! Please try again', category='danger')
 
@@ -59,3 +59,8 @@ def logout_page():
     logout_user()
     flash("You have been logged out!", category='info')
     return redirect(url_for("home_page"))
+
+@app.route('/tournament')
+@login_required
+def tournament():
+    return render_template('tournament.html') 
