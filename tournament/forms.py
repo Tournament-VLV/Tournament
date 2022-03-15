@@ -32,3 +32,5 @@ class LoginForm(FlaskForm):
     password = PasswordField(label='Password:', validators=[DataRequired()])
     submit = SubmitField(label='Sign in')
 
+class JoinTournament(FlaskForm):
+    submit = SubmitField(label='Add yourself to Tournament!')

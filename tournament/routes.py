@@ -2,9 +2,9 @@ from re import I
 from tournament import app
 from flask import render_template, redirect, url_for, flash
 from tournament.models import Item, User
-from tournament.forms import RegisterForm, LoginForm
+from tournament.forms import RegisterForm, LoginForm, JoinTournament
 from tournament import db
-from flask_login import login_user, logout_user, login_required
+from flask_login import login_user, logout_user, login_required, current_user
 
 @app.route('/')
 @app.route('/home')
@@ -60,7 +60,10 @@ def logout_page():
     flash("You have been logged out!", category='info')
     return redirect(url_for("home_page"))
 
-@app.route('/tournament')
+@app.route('/tournament', methods=['GET', 'POST'])
 @login_required
 def tournament():
-    return render_template('tournament.html') 
+    form_join_tournament = JoinTournament()
+    if form_join_tournament.validate_on_submit():
+        flash(f'You added {current_user.username} to a Tournament! Come back here the day before Tournament to check with who do you play first match!', category='success')
+    return render_template('tournament.html', form_join_tournament=form_join_tournament) 
