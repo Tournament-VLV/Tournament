@@ -36,6 +36,14 @@ class Item(db.Model):
     points_on_tournament = db.Column(db.Integer(), nullable=True, unique=False, default=0)
     owner = db.Column(db.Integer(), db.ForeignKey('user.id'))
 
-
     def __repr__(self):
         return f'Item {self.name}'
+
+
+class PlayerOnTournament(db.Model):
+    id = db.Column(db.Integer(), primary_key=True)
+    name = db.Column(db.String(length=30), nullable=False, unique=False)
+    surname = db.Column(db.Integer(), nullable=False)
+    points_on_tournament = db.Column(db.Integer(), nullable=True, unique=False, default=0)
+    date = db.Column(db.String(length=30), nullable=True, unique=False)
+    owner = db.Column(db.Integer(), db.ForeignKey('user.id'))
