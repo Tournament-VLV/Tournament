@@ -65,5 +65,5 @@ def logout_page():
 def tournament():
     form_join_tournament = JoinTournament()
     if form_join_tournament.validate_on_submit():
-        flash(f'You added {current_user.username} to a Tournament! Come back here the day before Tournament to check with who do you play first match!', category='success')
+        flash(f'You added {current_user.username} to a Tournament! Come back after timer will goes down to check with who do you play first Match!', category='success')
     return render_template('tournament.html', form_join_tournament=form_join_tournament) 
