@@ -1,10 +1,11 @@
 from re import I
 from tournament import app
 from flask import render_template, redirect, url_for, flash
-from tournament.models import Item, User
+from tournament.models import Item, User, PlayerOnTournament
 from tournament.forms import RegisterForm, LoginForm, JoinTournament
 from tournament import db
 from flask_login import login_user, logout_user, login_required, current_user
+from tournament import tournament_dates
 
 @app.route('/')
 @app.route('/home')
@@ -64,6 +65,14 @@ def logout_page():
 @login_required
 def tournament():
     form_join_tournament = JoinTournament()
-    if form_join_tournament.validate_on_submit():
-        flash(f'You added {current_user.username} to a Tournament! Come back after timer will goes down to check with who do you play first Match!', category='success')
+    if form_join_tournament.validate_on_submit(): 
+        exists = db.session.query(db.session.query(PlayerOnTournament).filter_by(name=current_user.username).exists()).scalar()
+        if exists == False:
+            user_to_play = PlayerOnTournament(name=current_user.username, points_on_tournament=current_user.user_points, date=tournament_dates.dates[0], owner=current_user.id)
+            db.session.add(user_to_play)
+            db.session.commit()
+            flash(f'You added {current_user.username} to a Tournament! Come back after timer will goes down to check with who do you play first Match!', category='success')
+        else:
+            flash(f'{current_user.username} is already added to a Tournament! Good luck and have fun!', category='danger')
     return render_template('tournament.html', form_join_tournament=form_join_tournament) 
+

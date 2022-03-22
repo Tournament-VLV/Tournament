@@ -7,7 +7,7 @@ from xml.dom import ValidationErr
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField
 from wtforms.validators import Length, EqualTo, Email, DataRequired, ValidationError
-from tournament.models import User
+from tournament.models import User, PlayerOnTournament
 
 class RegisterForm(FlaskForm):
     def validate_username(self, username_to_check):

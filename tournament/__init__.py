@@ -9,6 +9,7 @@
 #pip install flask_bcrypt
 #pip install flask_login
 #python -m pip install SomePackage
+#pip install flask-cors
 
 import imp
 from operator import length_hint
