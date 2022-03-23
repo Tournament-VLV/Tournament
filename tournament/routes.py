@@ -6,6 +6,8 @@ from tournament.forms import RegisterForm, LoginForm, JoinTournament
 from tournament import db
 from flask_login import login_user, logout_user, login_required, current_user
 from tournament import tournament_dates
+from datetime import datetime
+
 
 @app.route('/')
 @app.route('/home')
@@ -74,5 +76,10 @@ def tournament():
             flash(f'You added {current_user.username} to a Tournament! Come back after timer will goes down to check with who do you play first Match!', category='success')
         else:
             flash(f'{current_user.username} is already added to a Tournament! Good luck and have fun!', category='danger')
-    return render_template('tournament.html', form_join_tournament=form_join_tournament) 
-
+    date_time_str = tournament_dates.dates[0]
+    date_time_obj = datetime.strptime(date_time_str, '%B %d, %Y %H:%M:%S')
+    date_now = datetime.now()
+    if date_time_obj > date_now: 
+        return render_template('tournament.html', form_join_tournament=form_join_tournament) 
+    else:
+        return redirect(url_for('duel'))
