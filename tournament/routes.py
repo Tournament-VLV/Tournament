@@ -79,7 +79,16 @@ def tournament():
     date_time_str = tournament_dates.dates[0]
     date_time_obj = datetime.strptime(date_time_str, '%B %d, %Y %H:%M:%S')
     date_now = datetime.now()
-    if date_time_obj > date_now: 
+    if date_time_obj > date_now:
         return render_template('tournament.html', form_join_tournament=form_join_tournament) 
     else:
-        return redirect(url_for('duel'))
+        return redirect(url_for('ontournament'))
+
+
+@app.route('/ontournament', methods=['GET', 'POST'])
+@login_required
+def ontournament():
+    playerontournaments = PlayerOnTournament.query.all()
+    for playerontournament in playerontournaments:
+        print(playerontournament.name)
+    return render_template('ontournament.html', playerontournaments=playerontournaments)

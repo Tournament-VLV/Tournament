@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    On Tournament!   
+{% endblock %}
+
+{% block content %}
+
+{% for playerontournament in playerontournaments %}
+
+<th>{{ playerontournament.name }}</th>
+{% endfor %}
+
+{% endblock %}
