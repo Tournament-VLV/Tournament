@@ -6,9 +6,35 @@
 
 {% block content %}
 
-{% for playerontournament in playerontournaments %}
+<!-- <form method="POST">
+    <div class="position-relative overflow-hidden p-3 p-md-5 m-md-3 text-center bg-dark" style="color:white"> -->
 
-<th>{{ playerontournament.name }}</th>
-{% endfor %}
-
+        <div class="center">
+            <h2>Choose with who do you want to battle!</h2>
+            <br>
+           <table class="table table-hover table-dark">
+              <thead>
+                 <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Points on Tournament</th>
+                    <th scope="col">Option</th>
+                 </tr>
+              </thead>
+              <tbody>
+                {% for playerontournament in playerontournaments %}
+                {% include 'includes/ontournament_modals.html' %}
+                 <tr>
+                    <td>{{ playerontournament.id }}</td>
+                    <td>{{ playerontournament.name }}</td>
+                    <td>{{ playerontournament.points_on_tournament }}</td>
+                    <td>
+                        <button class="btn btn-outline btn-danger" data-toggle="modal" data-target="#Modal-Battle-{{ playerontournament.id }}">Battle</button>
+                    </td>
+                 </tr>
+                 {% endfor %}
+              </tbody>
+           </table>
+        </div>
+</form>
 {% endblock %}
