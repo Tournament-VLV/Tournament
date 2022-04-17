@@ -2,8 +2,7 @@ from re import I
 from tournament import app
 from flask import render_template, redirect, url_for, flash
 from tournament.models import Item, User, PlayerOnTournament
-from tournament.forms import RegisterForm, LoginForm, JoinTournament
-# from tournament.forms import BattleForm
+from tournament.forms import RegisterForm, LoginForm, JoinTournament, BattleForm 
 from tournament import db
 from flask_login import login_user, logout_user, login_required, current_user
 from tournament import tournament_dates
@@ -89,13 +88,8 @@ def tournament():
 @app.route('/ontournament', methods=['GET', 'POST'])
 @login_required
 def ontournament():
-    # form_battle = BattleForm()
-    # if form_battle.validate_on_submit():
-    #     exists = db.session.query(db.session.query(PlayerOnTournament).filter_by(name=current_user.username).exists()).scalar()
-    #     if exists == False:
-    #         flash(f'You cant battle yourself!', category='danger')  
-    #     else:
-    #         True
+    battle_form = BattleForm()
+    if battle_form.validate_on_submit():
+        print(battle_form)
     playerontournaments = PlayerOnTournament.query.all()
-    # return render_template('ontournament.html', playerontournaments=playerontournaments, form_battle=form_battle)
-    return render_template('ontournament.html', playerontournaments=playerontournaments)
+    return render_template('ontournament.html', playerontournaments=playerontournaments, battle_form=battle_form)
