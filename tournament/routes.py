@@ -90,7 +90,11 @@ def tournament():
 def ontournament():
     battle_form = BattleForm()
     if battle_form.validate_on_submit():
-        print(request.form.get('battle_player'))
+        fighting_player = request.form.get('battle_player')
+        if current_user.username == fighting_player:
+            flash(f'You cant battle with yourself!', category='danger')
+        else:
+            print(request.form.get('battle_player'))
     playerontournaments = PlayerOnTournament.query.all()
     return render_template('ontournament.html', playerontournaments=playerontournaments, battle_form=battle_form)
 
