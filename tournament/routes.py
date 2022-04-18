@@ -1,6 +1,6 @@
 from re import I
 from tournament import app
-from flask import render_template, redirect, url_for, flash
+from flask import render_template, redirect, url_for, flash, request
 from tournament.models import Item, User, PlayerOnTournament
 from tournament.forms import RegisterForm, LoginForm, JoinTournament, BattleForm 
 from tournament import db
@@ -90,6 +90,8 @@ def tournament():
 def ontournament():
     battle_form = BattleForm()
     if battle_form.validate_on_submit():
-        print(battle_form)
+        print(request.form.get('battle_player'))
     playerontournaments = PlayerOnTournament.query.all()
     return render_template('ontournament.html', playerontournaments=playerontournaments, battle_form=battle_form)
+
+    

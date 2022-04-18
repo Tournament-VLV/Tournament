@@ -25,7 +25,8 @@
                     <h6>
                         By clicking Yes, you will battle {{ playerontournament.name }}.
                     </h6>
-                    <br> {{ battle_form.submit(class="btn btn-outline-success btn-block") }}
+                    <br>
+                    <input id="battle_player" name="battle_player" type="hidden" value="{{ playerontournament.name}}"> {{ battle_form.submit(class="btn btn-outline-success btn-block") }}
                 </form>
             </div>
             <div class="modal-footer">
