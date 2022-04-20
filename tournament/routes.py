@@ -1,4 +1,6 @@
 from re import I
+
+from requests import session
 from tournament import app
 from flask import render_template, redirect, url_for, flash, request
 from tournament.models import Item, User, PlayerOnTournament
@@ -94,8 +96,17 @@ def ontournament():
         if current_user.username == fighting_player:
             flash(f'You cant battle with yourself!', category='danger')
         else:
-            print(request.form.get('battle_player'))
+            user_A = fighting_player
+            user_B = current_user.username
+            if request.method == "POST":
+                return redirect(url_for('battle', usrA=user_A, usrB=user_B))
     playerontournaments = PlayerOnTournament.query.all()
     return render_template('ontournament.html', playerontournaments=playerontournaments, battle_form=battle_form)
 
-    
+@app.route('/battle/<string:usrA>/<string:usrB>', methods=['GET', 'POST'])
+@login_required
+def battle(usrA, usrB):
+    print(usrA, usrB)
+    return render_template('battle.html')
+
+

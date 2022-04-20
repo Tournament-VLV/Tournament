@@ -26,8 +26,8 @@
                         By clicking Yes, you will battle {{ playerontournament.name }}.
                     </h6>
                     <br>
-                    <input id="battle_player" name="battle_player" type="hidden" value="{{ playerontournament.name}}"> {{ battle_form.submit(class="btn btn-outline-success btn-block") }}
-                </form>
+                    <input id="battle_player" name="battle_player" type="hidden" data-bs-target="#secondModal" value="{{ playerontournament.name}}"> {{ battle_form.submit(class="btn btn-outline-success btn-block") }}
+                  </form>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close

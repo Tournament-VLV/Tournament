@@ -39,6 +39,3 @@ class JoinTournament(FlaskForm):
 class BattleForm(FlaskForm):
     submit = SubmitField(label='Yes!')
 
-
-# class BattleForm(FlaskForm):
-#     battle = SubmitField(label='Battle')
