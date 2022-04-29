@@ -107,7 +107,23 @@ def ontournament():
 @login_required
 def battle(usrA, usrB):
     battles = Battles()
-    print(usrA, usrB)
+    scoreA = battles.goalsA.data
+    scoreB = battles.goalsB.data
+    playerA = usrA
+    playerB = usrB
+    if request.method == "POST":
+        if scoreA > scoreB:
+            winner = playerA
+            users = User.query.all()
+            for user in users:
+                if user.username == winner:
+                    user.user_points += 10
+                    db.session.commit()
+        if scoreA < scoreB:
+            print(scoreB)
+        if scoreA == scoreB:
+            print(scoreA+scoreB)
+
     return render_template('battle.html', battles=battles, usrA=usrA, usrB=usrB)
 
 
