@@ -112,18 +112,58 @@ def battle(usrA, usrB):
     playerA = usrA
     playerB = usrB
     if request.method == "POST":
-        if scoreA > scoreB:
-            winner = playerA
-            users = User.query.all()
-            for user in users:
-                if user.username == winner:
-                    user.user_points += 10
-                    db.session.commit()
-        if scoreA < scoreB:
-            print(scoreB)
-        if scoreA == scoreB:
-            print(scoreA+scoreB)
 
+        #########  LOGIC TO CHANGE !! #########
+        # if scoreA > scoreB:
+        #     winnerA = playerA
+        #     users = User.query.all()
+        #     for user in users:
+        #         if user.username == winnerA:
+        #             user.user_points += 10
+        #             db.session.commit()
+        #             return redirect(url_for('ontournament'))
+        # if scoreB > scoreA:
+        #     winnerB = playerB
+        #     users = User.query.all()
+        #     for user in users:
+        #         if user.username == winnerB:
+        #             user.user_points += 10
+        #             db.session.commit()
+        #             return redirect(url_for('ontournament'))
+        # if scoreA < scoreB:
+        #     looserA = playerA
+        #     users = User.query.all()
+        #     for user in users:
+        #         if user.username == looserA:
+        #             user.user_points -= 5
+        #             db.session.commit()
+        #             return redirect(url_for('ontournament'))
+        # if scoreB < scoreA:
+        #     looserB = playerB
+        #     users = User.query.all()
+        #     for user in users:
+        #         if user.username == looserB:
+        #             user.user_points -= 5
+        #             db.session.commit()
+        #             return redirect(url_for('ontournament'))
+        # if scoreA == scoreB:
+        #     sameScoreA = playerA
+        #     sameScoreB = playerB
+        #     users = User.query.all()
+        #     for user in users:
+        #         if user.username == sameScoreA:
+        #             user.user_points += 4
+        #             db.session.commit()
+        #             return redirect(url_for('ontournament'))
+        #     for user in users:
+        #         if user.username == sameScoreB:
+        #             user.user_points += 4
+        #             db.session.commit()
+        #             return redirect(url_for('ontournament'))  
     return render_template('battle.html', battles=battles, usrA=usrA, usrB=usrB)
 
 
+@app.route('/ranking')
+def ranking():
+    users = User.query.all()
+    return render_template('ranking.html', users=users) 
