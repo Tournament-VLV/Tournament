@@ -9,6 +9,10 @@
          <tr>
             <th scope="col">Name</th>
             <th scope="col">Points</th>
+            <th scope="col">Won Matches</th>
+            <th scope="col">Lost Matches</th>
+            <th scope="col">Draws</th>
+            <th scope="col">Played Matches</th>
          </tr>
       </thead>
       <tbody>
@@ -16,6 +20,10 @@
          <tr>
             <td>{{ user.username }}</td>
             <td>{{ user.user_points }}</td>
+            <td>{{ user.user_won_matches }}</td>  
+            <td>{{ user.user_lost_matches }}</td>
+            <td>{{ user.user_draws }}</td>   
+            <td>{{ user.user_played_matches }}</td>
          </tr>
          {% endfor %}
       </tbody>

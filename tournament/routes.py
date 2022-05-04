@@ -75,7 +75,7 @@ def tournament():
             user_to_play = PlayerOnTournament(name=current_user.username, points_on_tournament=current_user.user_points, date=tournament_dates.dates[0], owner=current_user.id)
             db.session.add(user_to_play)
             db.session.commit()
-            flash(f'You added {current_user.username} to a Tournament! Come back after timer will goes down to check with who do you play first Match!', category='success')
+            flash(f'You added {current_user.username} to a Tournament! Come back after timer will goes down to face your opponent!', category='success')
         else:
             flash(f'{current_user.username} is already added to a Tournament! Good luck and have fun!', category='danger')
     date_time_str = tournament_dates.dates[0]
@@ -111,6 +111,7 @@ def battle(usrA, usrB):
     scoreB = battles.goalsB.data
     playerA = usrA
     playerB = usrB
+
     if request.method == "POST":
         #firstCase
         if scoreA > scoreB:
@@ -120,10 +121,14 @@ def battle(usrA, usrB):
             for user in users:
                 if user.username == winnerA_firstCase:
                     user.user_points +=10
+                    user.user_played_matches +=1
+                    user.user_won_matches +=1
                     db.session.commit()
             for user in users:
                 if user.username == looserB_firstCase:
                     user.user_points -=6
+                    user.user_played_matches +=1
+                    user.user_lost_matches +=1
                     db.session.commit()
             return redirect(url_for('ontournament'))
          #secondCase
@@ -134,10 +139,14 @@ def battle(usrA, usrB):
             for user in users:
                 if user.username == winnerB_secondCase:
                     user.user_points +=10
+                    user.user_played_matches +=1
+                    user.user_won_matches +=1
                     db.session.commit()
             for user in users:
                 if user.username == looserA_secondCase:
                     user.user_points -=6
+                    user.user_played_matches +=1
+                    user.user_lost_matches +=1
                     db.session.commit()
             return redirect(url_for('ontournament'))
         #thirdCase
@@ -148,13 +157,18 @@ def battle(usrA, usrB):
             for user in users:
                 if user.username == same_scoreA:
                     user.user_points +=5
+                    user.user_played_matches +=1
+                    user.user_draws +=1
                     db.session.commit()
             for user in users:
                 if user.username == same_scoreB:
                     user.user_points +=5
+                    user.user_played_matches +=1
+                    user.user_draws +=1
                     db.session.commit()
             return redirect(url_for('ontournament'))    
     return render_template('battle.html', battles=battles, usrA=usrA, usrB=usrB)
+
 
 @app.route('/ranking')
 def ranking():

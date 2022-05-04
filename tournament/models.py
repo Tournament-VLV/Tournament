@@ -15,6 +15,10 @@ class User(db.Model, UserMixin):
     password_hash = db.Column(db.String(length=70), unique=False, nullable=False)
     user_points = db.Column(db.Integer(), nullable=True, default=0)
     items = db.relationship('Item', backref='owned_user', lazy=True)
+    user_played_matches = db.Column(db.Integer(), nullable=True, default=0)
+    user_won_matches = db.Column(db.Integer(), nullable=True, default=0)
+    user_lost_matches = db.Column(db.Integer(), nullable=True, default=0)
+    user_draws = db.Column(db.Integer(), nullable=True, default=0)
 
 
     @property
@@ -38,8 +42,6 @@ class Item(db.Model):
 
     def __repr__(self):
         return f'Item {self.name}'
-
-
 
 
 class PlayerOnTournament(db.Model):
