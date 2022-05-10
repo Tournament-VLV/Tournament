@@ -5,8 +5,8 @@
 
 from xml.dom import ValidationErr
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField
-from wtforms.validators import Length, EqualTo, Email, DataRequired, ValidationError
+from wtforms import StringField, PasswordField, SubmitField, IntegerField
+from wtforms.validators import Length, EqualTo, Email, DataRequired, ValidationError, NumberRange
 from tournament.models import User, PlayerOnTournament
 
 class RegisterForm(FlaskForm):
@@ -36,5 +36,13 @@ class JoinTournament(FlaskForm):
     submit = SubmitField(label='Add yourself to Tournament!')
 
 
-# class BattleForm(FlaskForm):
-#     battle = SubmitField(label='Battle')
+class BattleForm(FlaskForm):
+    submit = SubmitField(label='Yes!')
+
+class Battles(FlaskForm):
+    playerA = StringField(label='Player A:', validators=[Length(min=2, max=30), DataRequired()])
+    playerB = StringField(label='Player B:', validators=[Length(min=2, max=30), DataRequired()])
+    goalsA = IntegerField(label='Goals player A:', validators=[NumberRange(min=0, max=None, message='You must have score over or equal to 0!'), DataRequired()])
+    goalsB = IntegerField(label='Goals player B:', validators=[NumberRange(min=0, max=None, message='You must have score over or equal to 0!'), DataRequired()])
+    submit = SubmitField(label='Confirm score')
+    

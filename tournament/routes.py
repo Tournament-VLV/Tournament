@@ -1,9 +1,10 @@
 from re import I
+
+from requests import session
 from tournament import app
-from flask import render_template, redirect, url_for, flash
+from flask import render_template, redirect, url_for, flash, request
 from tournament.models import Item, User, PlayerOnTournament
-from tournament.forms import RegisterForm, LoginForm, JoinTournament
-# from tournament.forms import BattleForm
+from tournament.forms import RegisterForm, LoginForm, JoinTournament, BattleForm, Battles
 from tournament import db
 from flask_login import login_user, logout_user, login_required, current_user
 from tournament import tournament_dates
@@ -74,7 +75,7 @@ def tournament():
             user_to_play = PlayerOnTournament(name=current_user.username, points_on_tournament=current_user.user_points, date=tournament_dates.dates[0], owner=current_user.id)
             db.session.add(user_to_play)
             db.session.commit()
-            flash(f'You added {current_user.username} to a Tournament! Come back after timer will goes down to check with who do you play first Match!', category='success')
+            flash(f'You added {current_user.username} to a Tournament! Come back after timer will goes down to face your opponent!', category='success')
         else:
             flash(f'{current_user.username} is already added to a Tournament! Good luck and have fun!', category='danger')
     date_time_str = tournament_dates.dates[0]
@@ -89,13 +90,87 @@ def tournament():
 @app.route('/ontournament', methods=['GET', 'POST'])
 @login_required
 def ontournament():
-    # form_battle = BattleForm()
-    # if form_battle.validate_on_submit():
-    #     exists = db.session.query(db.session.query(PlayerOnTournament).filter_by(name=current_user.username).exists()).scalar()
-    #     if exists == False:
-    #         flash(f'You cant battle yourself!', category='danger')  
-    #     else:
-    #         True
+    battle_form = BattleForm()
+    if battle_form.validate_on_submit():
+        fighting_player = request.form.get('battle_player')
+        if current_user.username == fighting_player:
+            flash(f'You cant battle with yourself!', category='danger')
+        else:
+            user_B = fighting_player
+            user_A = current_user.username
+            if request.method == "POST":
+                return redirect(url_for('battle', usrA=user_A, usrB=user_B))
     playerontournaments = PlayerOnTournament.query.all()
-    # return render_template('ontournament.html', playerontournaments=playerontournaments, form_battle=form_battle)
-    return render_template('ontournament.html', playerontournaments=playerontournaments)
+    return render_template('ontournament.html', playerontournaments=playerontournaments, battle_form=battle_form)
+
+@app.route('/battle/<string:usrA>/<string:usrB>', methods=['GET', 'POST'])
+@login_required
+def battle(usrA, usrB):
+    battles = Battles()
+    scoreA = battles.goalsA.data
+    scoreB = battles.goalsB.data
+    playerA = usrA
+    playerB = usrB
+
+    if request.method == "POST":
+        #firstCase
+        if scoreA > scoreB:
+            winnerA_firstCase = playerA
+            looserB_firstCase = playerB
+            users = User.query.all()
+            for user in users:
+                if user.username == winnerA_firstCase:
+                    user.user_points +=10
+                    user.user_played_matches +=1
+                    user.user_won_matches +=1
+                    db.session.commit()
+            for user in users:
+                if user.username == looserB_firstCase:
+                    user.user_points -=6
+                    user.user_played_matches +=1
+                    user.user_lost_matches +=1
+                    db.session.commit()
+            return redirect(url_for('ontournament'))
+         #secondCase
+        if scoreB > scoreA:
+            winnerB_secondCase = playerB
+            looserA_secondCase = playerA
+            users = User.query.all()
+            for user in users:
+                if user.username == winnerB_secondCase:
+                    user.user_points +=10
+                    user.user_played_matches +=1
+                    user.user_won_matches +=1
+                    db.session.commit()
+            for user in users:
+                if user.username == looserA_secondCase:
+                    user.user_points -=6
+                    user.user_played_matches +=1
+                    user.user_lost_matches +=1
+                    db.session.commit()
+            return redirect(url_for('ontournament'))
+        #thirdCase
+        if scoreA == scoreB:
+            same_scoreA = playerA
+            same_scoreB = playerB
+            users = User.query.all()
+            for user in users:
+                if user.username == same_scoreA:
+                    user.user_points +=5
+                    user.user_played_matches +=1
+                    user.user_draws +=1
+                    db.session.commit()
+            for user in users:
+                if user.username == same_scoreB:
+                    user.user_points +=5
+                    user.user_played_matches +=1
+                    user.user_draws +=1
+                    db.session.commit()
+            return redirect(url_for('ontournament'))    
+    return render_template('battle.html', battles=battles, usrA=usrA, usrB=usrB)
+
+
+@app.route('/ranking')
+def ranking():
+    users = User.query.all()
+    return render_template('ranking.html', users=users) 
